@@ -1,33 +1,22 @@
-import React, { Component, useState, useEffect } from "react";
+import React from "react";
 import Player from "../game/Player";
-import Ship from "../game/Ship";
-import Settings from "./Settings";
 import Tile from "./Tile";
-import { useLocation } from 'react-router-dom';
 
-const Game = (props) => {
-    const location = useLocation();
-
-    const player = Player("human", location.state.savedSettings.firstName)
+const Game = () => {
     const computer = Player("computer", "Hanzlo")
+    const savedSettings = JSON.parse(window.localStorage.getItem('savedSettings'))
+    const playerShips = JSON.parse(window.localStorage.getItem('playerShips'))
+    const player = Player("human", savedSettings.firstName)
+    console.log(savedSettings)
+    console.log(playerShips)
 
-    const [gameActive, setGameActive] = useState("inactive")
-    useEffect(() => {
-    })
-
-    const goToSettings = () => {
-        window.localStorage.clear()
-        window.location.reload(false);
-    }
-
-    console.log(player)
-    console.log(location.state.savedSettings.difficulty)
+    const playerShipSpaces = playerShips.map(ship => ship.shipCoordinates)
+    console.log(playerShipSpaces)
 
     return (
-        <section>
-            <button id="settingsButton" onClick={() => goToSettings()}>Settings</button>
+        <section id='gameboardSection'>
             <div className='competitor-side' id='playerSide'>
-                <h2 className='competitor-label'>{location.state.savedSettings.firstName}</h2>
+                <h2 className='competitor-label'>{savedSettings.firstName}</h2>
                 <div className='board-full' id="playerBoardFull">
                     <div className="column-headers">
                         <div className="column-header">A</div>
@@ -61,7 +50,7 @@ const Game = (props) => {
                 </div>
             </div>
             <div className='competitor-side' id='computerSide'>
-                <h2 className='competitor-label'>{computer.firstName} The Computer - {location.state.savedSettings.difficulty}</h2>
+                <h2 className='competitor-label'>{computer.firstName} The Computer - {savedSettings.difficulty}</h2>
                 <div className='board-full' id="computerBoardFull">
                     <div className="column-headers">
                         <div className="column-header">A</div>
@@ -77,7 +66,7 @@ const Game = (props) => {
                     </div>
                     <div className='board' id="computerBoard">
                         {Object.keys(computer.gameboard.board).map(key => (
-                            <Tile id={player.type + key} key={key} owner='computer' condition={computer.gameboard.board[key]} />
+                            <Tile id={computer.type + key} key={key} owner='computer' condition={computer.gameboard.board[key]} />
                         ))}
                     </div>
                     <div className="row-headers">
@@ -98,42 +87,6 @@ const Game = (props) => {
     )
 }
 
-/*
-                {y_axis.map(label => {
-                    <div className="y-axis-label" key={label.index}>Hi</div>
-                })}
 
-                {Object.entries(computer.gameboard.board).map(([key, value]) => {
-                    <Tile id={key} key={key} condition={value} />
-                })}
-
-import React, { useState, useEffect } from 'react';
-
-function Board() {
-    const createBoard = () => {
-        let AllChars = [];
-        let board = []
-    
-        for (var i=97; i<123; i++) {
-            AllChars.push(String.fromCharCode(i))
-        }
-    
-        for (let i = 1; i <= 10; i++) {
-            for (let j = 1; j <= AllChars; j++) {
-                board.push(AllChars[j] + i.toString())
-            }
-        }
-        return board
-    }
-
-    const [board, setBoard] = useState(createBoard)
-    useEffect(() => {
-        // SOME DOM MANIPULATING STUFF
-    }, [board]);
-
-    // FUNCTION TO RECEIVE GUESS AND PAINT TILE AS HIT OR MISS
-    // SAVE BOARD IN LOCAL STORAGE
-}
-*/
 
 export default Game;

@@ -56,18 +56,43 @@ code {
   margin-bottom: 35px;
 }
 
-section {
+#setupBoard {
+  width: 100%;
+  height: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 0 auto;
+}
+
+#setup {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 15%;
+  margin: 0 auto;
+}
+
+#gambeoard {
+  min-width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.competitor-side {
+  min-width: 45%;
+  height: 100%;
+}
+
+#gameboardSection {
   width: 100%;
   height: 1000px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  align-items: stretch;
   margin: 0 auto;
-}
-
-.competitor-side {
-  width: 90%;
-  height: 100%;
 }
 
 .board-full {

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import './style.css';
 import Header from './components/Header';
-import Game from './components/Game';
+import GameLogic from './components/GameLogic';
 import Settings from './components/Settings';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
@@ -12,17 +12,7 @@ function App() {
       <div>
         <Header />
         <main>
-          <Switch>
-            <Route path="/" 
-              render = {() => {
-                if (localStorage.getItem('savedSettings') == null) {
-                  return <Settings />
-                } else {
-                  return <Game />
-                }
-              }}
-            />
-          </Switch>
+          <GameLogic />
         </main>
       </div>
     </Router>
@@ -30,3 +20,17 @@ function App() {
 }
 
 export default App;
+
+/*
+          <Switch>
+            <Route path="/" 
+              render = {() => {
+                if (localStorage.getItem('savedSettings') == null || JSON.parse(localStorage.getItem('savedSettings')).editing === true) {
+                  return <Settings />
+                } else {
+                  return <GameLogic />
+                }
+              }}
+            />
+          </Switch>
+*/

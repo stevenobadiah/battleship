@@ -2,10 +2,10 @@ const gameboard = require('./Gameboard');
 const ship = require('./Ship');
 
 let newBoard = gameboard()
-const shipTest = ship(1, 4, 'A1', 'down')
-const ship1 = ship(1, 3, 'D5', 'left')
-const ship2 = ship(5, 5, 'J1', 'down')
-const ship3 = ship(3, 2, 'B10', 'right')
+const shipTest = ship(1, 4, 'A1', 'Down')
+const ship1 = ship(1, 3, 'D5', 'Left')
+const ship2 = ship(5, 5, 'J1', 'Down')
+const ship3 = ship(3, 2, 'B10', 'Right')
 const ships = [ship1, ship2, ship3]
 
 beforeAll(() => {

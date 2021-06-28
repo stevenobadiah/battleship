@@ -10,25 +10,25 @@ const ship = ( shipId, length, anchor, direction ) => {
         let shipCoordinates = {}
 
         switch (direction) {
-            case 'left':
+            case 'Left':
                 for (let i = 0; i < length; i++) {
                     let coordinates = (x_coordinates[x_coordinates.findIndex(x_coord => x_coord === x_coordinate) - i]) + y_coordinate
                     shipCoordinates[coordinates] = 'O'
                 }
                 break;
-            case 'right':
+            case 'Right':
                 for (let i = 0; i < length; i++) {
                     let coordinates = (x_coordinates[x_coordinates.findIndex(x_coord => x_coord === x_coordinate) + i]) + y_coordinate
                     shipCoordinates[coordinates] = 'O'
                 }
                 break;
-            case 'up':
+            case 'Up':
                 for (let i = 0; i < length; i++) {
                     let coordinates = x_coordinate + (y_coordinates[y_coordinates.findIndex(y_coord => y_coord === y_coordinate) + i])
                     shipCoordinates[coordinates] = 'O'
                 }
                 break;
-            case 'down':
+            case 'Down':
                 for (let i = 0; i < length; i++) {
                     let coordinates = x_coordinate + (y_coordinates[y_coordinates.findIndex(y_coord => y_coord === y_coordinate) - i])
                     shipCoordinates[coordinates] = 'O'
