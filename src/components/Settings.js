@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import Player from '../game/Player';
 import { useForm } from "react-hook-form";
 import { withRouter, useHistory } from 'react-router-dom'
 
@@ -13,6 +14,8 @@ function Settings() {
       //window.localStorage.clear()
       window.localStorage.setItem('savedSettings', JSON.stringify(settings));
       window.localStorage.setItem('savedStatus', "setup");
+
+      console.log(settings)
       history.push({
         pathname: '/',
         state: { savedSettings: settings }

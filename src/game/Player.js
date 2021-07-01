@@ -1,6 +1,6 @@
 import gameboard from "./Gameboard";
 
-const player = (type, firstName) => {
+const player = (type, firstName, age) => {
     let moveCount = 0
     let playedMoves = []
 
@@ -17,6 +17,7 @@ const player = (type, firstName) => {
     return {
         type: type,
         firstName: firstName,
+        age: age,
         moveCount,
         playedMoves,
         gameboard: gameboard(),
