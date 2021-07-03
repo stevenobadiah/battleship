@@ -138,7 +138,7 @@ code {
 }
 
 .tile {
-  background-color: #444;
+  background-color: black;
   color: #fff;
   border-radius: 5px;
   padding: 20px;
@@ -149,4 +149,20 @@ code {
   text-align: center;
   padding-bottom: 20px;
   margin-left: 10%;
+}
+
+.hidden {
+  background-color: black;
+}
+
+.ocean {
+  background-color: blue;
+}
+
+.attacked {
+  background-color: blue;
+}
+
+.ship {
+  background-color: grey;
 }

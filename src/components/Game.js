@@ -1,25 +1,12 @@
-import React, { Component, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Player from "../game/Player";
-import Ship from "../game/Ship";
-import Tile from "./Tile";
+import GameTile from "./GameTile";
 
-const keys = ["A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1", "I1", "J1", "A2", "B2", "C2", "D2", "E2", "F2", "G2", "H2", "I2", "J2", "A3", "B3", "C3", "D3", "E3", "F3", "G3", "H3", "I3", "J3", "A4", "B4", "C4", "D4", "E4", "F4", "G4", "H4", "I4", "J4", "A5", "B5", "C5", "D5", "E5", "F5", "G5", "H5", "I5", "J5", "A6", "B6", "C6", "D6", "E6", "F6", "G6", "H6", "I6", "J6", "A7", "B7", "C7", "D7", "E7", "F7", "G7", "H7", "I7", "J7", "A8", "B8", "C8", "D8", "E8", "F8", "G8", "H8", "I8", "J8", "A9", "B9", "C9", "D9", "E9", "F9", "G9", "H9", "I9", "J9", "A10", "B10", "C10", "D10", "E10", "F10", "G10", "H10", "I10", "J10"];
 const computer = Player("computer", "Hanzlo")
 const savedSettings = JSON.parse(window.localStorage.getItem('savedSettings'))
 const playerShips = JSON.parse(window.localStorage.getItem('playerShips'))
 const computerShips = JSON.parse(window.localStorage.getItem('computerShips'))
 const player = Player('human', savedSettings.firstName, savedSettings.age)
-console.log(savedSettings)
-console.log(playerShips)
-
-const playerShipObjects = playerShips.map(ship => ship.shipCoordinates)
-console.log(playerShipObjects)
-
-const x_array = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
-const y_array = ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']
-const shipLengths = [5, 4, 3, 3, 2]
-const orientations = ['Left', 'Right', 'Up', 'Down']
-
 
 const Game = () => {
     playerShips.forEach(ship => {
@@ -29,6 +16,77 @@ const Game = () => {
         computer.gameboard.placeShip(ship)
     });
 
+    const [gameStatus, setGameStatus] = useState(true)
+    useEffect(() => {
+        if (gameStatus === false) {
+            document.getElementById('computerSide').style.pointerEvents = 'none';
+        }
+    }, [gameStatus])
+
+    const [turn, setTurn] = useState(1)
+    useEffect(() => {
+        if (turn % 2 == 0) {
+            if (computer.gameboard.isAllSunk(computerShips)) {
+                console.log('HUMAN WINS!')
+                setGameStatus(false)
+            }
+            while (true) {
+                let coordinates = computer.randomAttack()
+                let tile = document.getElementById('human' + coordinates)
+                if (tile.style.backgroundColor != 'blue' && tile.style.backgroundColor != 'red') {
+                    computerAttack(coordinates)
+                    break;
+                }
+            }
+        } else {
+            if (player.gameboard.isAllSunk(playerShips)) {
+                console.log('COMPUTER WINS!')
+                setGameStatus(false)
+            }
+        }
+    })
+
+    const [playerBoard, setPlayerBoard] = useState(player.gameboard.board)
+    const [computerBoard, setComputerBoard] = useState(computer.gameboard.board)
+
+    function computerAttack(coordinates) {
+        console.log(coordinates)
+        let hitStatus = player.gameboard.receiveAttack(playerShips, coordinates)
+        if (hitStatus === 'Direct Hit' || hitStatus === 'Ship Sunk') {
+            player.gameboard.board[coordinates] = 'X'
+            console.log('player hit')
+            let tile = document.getElementById('human' + coordinates)
+            tile.style.backgroundColor = 'Red'
+        } else if (hitStatus === 'Miss') {
+            console.log('miss')
+            let tile = document.getElementById('human' + coordinates)
+            tile.style.backgroundColor = 'Blue'
+        }
+        setTurn(turn + 1)
+        setPlayerBoard(player.gameboard.board)
+    }
+
+    function attack(e) {
+        let coordinates
+        if (e.target.id.slice(-1) === '0') {
+            coordinates = e.target.id.slice(-3)
+        } else {
+            coordinates = e.target.id.slice(-2)
+        }
+
+        let hitStatus = computer.gameboard.receiveAttack(computerShips, coordinates)
+        if (e.target.style.backgroundColor === 'red' || e.target.style.backgroundColor === 'blue') {
+            console.log('You already picked this tile!')
+        } else if (hitStatus === 'Direct Hit' || hitStatus === 'Ship Sunk') {
+            computer.gameboard.board[coordinates] = 'X'
+            e.target.style.backgroundColor = 'red'
+            setTurn(turn + 1)
+        } else if (hitStatus === 'Miss') {
+            e.target.style.backgroundColor = 'blue'
+            setTurn(turn + 1)
+        }
+        setComputerBoard(computer.gameboard.board)
+    }
 
     return (
         <section id='gameboardSection'>
@@ -49,7 +107,7 @@ const Game = () => {
                     </div>
                     <div className='board' id="playerBoard">
                         {Object.keys(player.gameboard.board).map(key => (
-                            <Tile id={player.type + key} key={key} owner='player' condition={player.gameboard.board[key]} />
+                            <GameTile id={player.type + key} key={key} owner='player' condition={playerBoard[key]} />
                         ))}
                     </div>
                     <div className="row-headers">
@@ -83,7 +141,7 @@ const Game = () => {
                     </div>
                     <div className='board' id="computerBoard">
                         {Object.keys(computer.gameboard.board).map(key => (
-                            <Tile id={computer.type + key} key={key} owner='computer' condition={computer.gameboard.board[key]} />
+                            <GameTile id={computer.type + key} key={key} owner='computer' attack={attack} condition={computerBoard[key]} />
                         ))}
                     </div>
                     <div className="row-headers">
@@ -103,7 +161,5 @@ const Game = () => {
         </section>
     )
 }
-
-
 
 export default Game;

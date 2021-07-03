@@ -13,46 +13,38 @@ const ship = ( shipId, length, anchor, direction ) => {
             case 'Left':
                 for (let i = 0; i < length; i++) {
                     let coordinates = (x_coordinates[x_coordinates.findIndex(x_coord => x_coord === x_coordinate) - i]) + y_coordinate
-                    shipCoordinates[coordinates] = 'O'
+                    shipCoordinates[coordinates] = 'ship'
                 }
                 break;
             case 'Right':
                 for (let i = 0; i < length; i++) {
                     let coordinates = (x_coordinates[x_coordinates.findIndex(x_coord => x_coord === x_coordinate) + i]) + y_coordinate
-                    shipCoordinates[coordinates] = 'O'
+                    shipCoordinates[coordinates] = 'ship'
                 }
                 break;
             case 'Up':
                 for (let i = 0; i < length; i++) {
                     let coordinates = x_coordinate + (y_coordinates[y_coordinates.findIndex(y_coord => y_coord === y_coordinate) + i])
-                    shipCoordinates[coordinates] = 'O'
+                    shipCoordinates[coordinates] = 'ship'
                 }
                 break;
             case 'Down':
                 for (let i = 0; i < length; i++) {
                     let coordinates = x_coordinate + (y_coordinates[y_coordinates.findIndex(y_coord => y_coord === y_coordinate) - i])
-                    shipCoordinates[coordinates] = 'O'
+                    shipCoordinates[coordinates] = 'ship'
                 }
                 break;
             default:
                 for (let i = 0; i < length; i++) {
                     let coordinates = x_coordinate + (y_coordinates[y_coordinates.findIndex(y_coord => y_coord === y_coordinate) - i])
-                    shipCoordinates[coordinates] = 'O'
+                    shipCoordinates[coordinates] = 'ship'
                 } 
         }
         return shipCoordinates
     }
 
     function takeHit(coordinates) {
-        this.shipCoordinates[coordinates] = 'X'
-    }
-
-    const isSunk = () => {
-        if (Object.values(shipCoordinates).includes('O')) {
-            return false;
-        } else {
-            return true
-        }
+        this.shipCoordinates[coordinates] = 'attacked'
     }
 
     return {
@@ -60,9 +52,9 @@ const ship = ( shipId, length, anchor, direction ) => {
         length: length,
         anchor: anchor,
         direction: direction,
+        sunk: false,
         shipCoordinates: createShipCoordinates(anchor, direction, length),
-        takeHit,
-        isSunk
+        takeHit
     }
 };
 

@@ -1,8 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
-import Player from "../game/Player";
-import Ship from "../game/Ship";
 import Settings from "./Settings";
-import Tile from "./Tile";
 import Game from "./Game";
 import Setup from "./Setup";
 

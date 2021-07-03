@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect, useRef } from "react";
 import Player from "../game/Player";
 import Ship from "../game/Ship";
-import Tile from "./Tile";
+import SetupTile from "./SetupTile";
     
 const Setup = () => {
     const savedSettings = JSON.parse(window.localStorage.getItem('savedSettings'))
@@ -162,8 +162,6 @@ const Setup = () => {
           let y_coord = ship.anchor[1]
           let boardIndex = keys.findIndex(tile => tile === ship.anchor)
           let computerOrientation = ship.direction
-
-          //THIS IS NOT WORKING
           let invalidSelection = Object.keys(ship.shipCoordinates).some( tile => computerSelectedTiles.includes(tile));
   
           if (invalidSelection === false) {
@@ -369,7 +367,7 @@ const Setup = () => {
                         </div>
                         <div className='board' id="playerBoard">
                             {Object.keys(player.gameboard.board).map(key => (
-                                <Tile id={key} key={key} selected={false} highlight={highlight} dim={dim} placeShip={placeShip} owner='nobody' condition={player.gameboard.board[key]} />
+                                <SetupTile id={key} key={key} selected={false} highlight={highlight} dim={dim} placeShip={placeShip} owner='nobody' condition={player.gameboard.board[key]} />
                             ))}
                         </div>
                         <div className="row-headers">
