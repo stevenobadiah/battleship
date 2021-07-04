@@ -151,18 +151,13 @@ code {
   margin-left: 10%;
 }
 
+.showWinPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .hidden {
-  background-color: black;
-}
-
-.ocean {
-  background-color: blue;
-}
-
-.attacked {
-  background-color: blue;
-}
-
-.ship {
-  background-color: grey;
+  display: none;
 }
